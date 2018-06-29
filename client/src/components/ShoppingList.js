@@ -20,10 +20,10 @@ class ShoppingList extends React.Component<Props, State> {
     ],
   };
 
-  handleDeleteItem = (id) => {
+  handleDeleteItem = (id: string) => {
     const updatedItems = this.state.items.filter((item) => item.id !== id);
     this.setState(() => ({ items: updatedItems }));
-  }
+  };
 
   render() {
     const { items } = this.state;
