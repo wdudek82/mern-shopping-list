@@ -8,30 +8,37 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Container
+  Container,
 } from 'reactstrap';
+
+type Props = {}
 
 type State = {
   isOpen: boolean,
-}
+};
 
-class AppNavbar extends React.Component<null, State> {
+class AppNavbar extends React.Component<Props, State> {
   state = {
-    isOpen: false
-  }
+    isOpen: false,
+  };
 
   toggle = () => {
     this.setState((prevState) => ({ isOpen: !prevState.isOpen }));
-  }
+  };
 
   render() {
     return (
       <h1>
         <Navbar color="dark" dark expand="sm" className="mb-5">
           <Container>
-            <NavbarBrand href="/">ShoppingList</NavbarBrand>
+            <NavbarBrand href="/">
+              ShoppingList
+            </NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
-            <Collapse isOpen={this.state.isOpen} navbar>
+            <Collapse
+              isOpen={this.state.isOpen}
+              navbar
+            >
               <Nav className="ml-auto" navbar>
                 <NavItem>
                   <NavLink href="https://github.com/wdudek82">
@@ -43,7 +50,7 @@ class AppNavbar extends React.Component<null, State> {
           </Container>
         </Navbar>
       </h1>
-    )
+    );
   }
 }
 
