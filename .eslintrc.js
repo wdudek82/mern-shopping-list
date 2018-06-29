@@ -54,5 +54,6 @@ module.exports = {
     'react/destructuring-assignment': 0,
     'react/jsx-one-expression-per-line': 0,
     'object-curly-newline': ['error', { consistent: true }],
+    'operator-linebreak': 0,
   },
 };

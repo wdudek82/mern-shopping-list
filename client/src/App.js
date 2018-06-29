@@ -1,5 +1,8 @@
 // @flow
 import * as React from 'react';
+import { Provider } from 'react-redux';
+import store from './store';
+
 import AppNavbar from './components/AppNavbar';
 import ShoppingList from './components/ShoppingList';
 
@@ -10,11 +13,13 @@ type Props = {};
 
 const App = (props: Props) => {
   return (
-    <div className="App">
-      <AppNavbar />
-      <h1>Hello!</h1>
-      <ShoppingList />
-    </div>
+    <Provider store={store}>
+      <div className="App">
+        <AppNavbar />
+        <h1>Hello!</h1>
+        <ShoppingList />
+      </div>
+    </Provider>
   );
 };
 
