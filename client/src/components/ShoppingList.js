@@ -1,12 +1,17 @@
 // @flow
 import React from 'react';
 import { connect } from 'react-redux';
+
 import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import uuid from 'uuid';
+
+import { asyncGetItems, asyncDeleteItem } from '../actions';
 
 type Props = {
-  items: Array<Object>,
+  item: Array<Object>,
+  loading: boolean,
+  asyncGetItems: (void) => void,
+  asyncDeleteItem: (string) => void,
 };
 
 type State = {
@@ -14,57 +19,44 @@ type State = {
 };
 
 class ShoppingList extends React.Component<Props, State> {
-  // state = {
-  //   items: [
-  //     { id: uuid(), name: 'Eggs' },
-  //     { id: uuid(), name: 'Milk' },
-  //     { id: uuid(), name: 'Steak' },
-  //     { id: uuid(), name: 'Water' },
-  //   ],
-  // };
+  componentDidMount() {
+    this.props.asyncGetItems();
+  }
 
   handleDeleteItem = (id: string) => {
-    const updatedItems = this.state.items.filter((item) => item.id !== id);
-    this.setState(() => ({ items: updatedItems }));
+    this.props.asyncDeleteItem(id);
+  };
+
+  renderItems = () => {
+    let items = 'loading...';
+
+    if (this.props.item.length > 0) {
+      items = this.props.item.map(({ _id, name }) => (
+        <CSSTransition key={_id} timeout={500} classNames="fade">
+          <ListGroupItem>
+            <Button
+              className="remove-btn"
+              color="danger"
+              size="sm"
+              onClick={() => this.handleDeleteItem(_id)}
+            >
+              &times;
+            </Button>
+            {name}
+          </ListGroupItem>
+        </CSSTransition>
+      ));
+    }
+
+    return items;
   };
 
   render() {
-    const { items } = this.props;
-
     return (
       <Container>
-        <Button
-          color="dark"
-          style={{ marginBottom: '2rem' }}
-          onClick={() => {
-            const name = prompt('Enter Item');
-            if (name) {
-              this.setState(({ items: prevItems }) => ({
-                items: [...prevItems, { id: uuid(), name }],
-              }));
-            }
-          }}
-        >
-          Add Item
-        </Button>
-
         <ListGroup>
           <TransitionGroup className="shopping-list">
-            {items.map(({ id, name }) => (
-              <CSSTransition key={id} timeout={500} classNames="fade">
-                <ListGroupItem>
-                  <Button
-                    className="remove-btn"
-                    color="danger"
-                    size="sm"
-                    onClick={() => this.handleDeleteItem(id)}
-                  >
-                    &times;
-                  </Button>
-                  {name}
-                </ListGroupItem>
-              </CSSTransition>
-            ))}
+            {this.renderItems()}
           </TransitionGroup>
         </ListGroup>
       </Container>
@@ -74,8 +66,12 @@ class ShoppingList extends React.Component<Props, State> {
 
 function mapStateToProps(state) {
   return {
-    items: state.items,
+    item: state.item.items,
+    loading: state.item.loading,
   };
 }
 
-export default connect(mapStateToProps)(ShoppingList);
+export default connect(
+  mapStateToProps,
+  { asyncGetItems, asyncDeleteItem },
+)(ShoppingList);

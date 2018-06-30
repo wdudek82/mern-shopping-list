@@ -11,7 +11,7 @@ import {
   Container,
 } from 'reactstrap';
 
-type Props = {}
+type Props = {};
 
 type State = {
   isOpen: boolean,
@@ -31,19 +31,12 @@ class AppNavbar extends React.Component<Props, State> {
       <h1>
         <Navbar color="dark" dark expand="sm" className="mb-5">
           <Container>
-            <NavbarBrand href="/">
-              ShoppingList
-            </NavbarBrand>
+            <NavbarBrand href="/">ShoppingList</NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
-            <Collapse
-              isOpen={this.state.isOpen}
-              navbar
-            >
+            <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <NavItem>
-                  <NavLink href="https://github.com/wdudek82">
-                    GitHub
-                  </NavLink>
+                  <NavLink href="https://github.com/wdudek82">GitHub</NavLink>
                 </NavItem>
               </Nav>
             </Collapse>
